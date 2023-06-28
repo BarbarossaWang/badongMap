@@ -1,63 +1,65 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>巴东双评价平台</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
-  <!-- <link rel="stylesheet" href="https://js.arcgis.com/4.27/@arcgis/core/assets/esri/themes/light/main.css"> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>巴东双评价平台</title>
-</head>
+  <body>
+    <div id="app" class="container text-center">
+      <header
+        class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+        >
+          <span class="fs-4">巴东双评价平台</span>
+        </a>
 
-<body>
-  <div id="app" class="row g-5">
-    <aside class="flex-column p-3 bg-ligh col-md-4" style="width: 200px;">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <span class="fs-4 nav-btn" value="0">巴东双评价平台</span>
-      </a>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary nav-btn" value="1">
+              本底评价
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn nav-btn" value="2">
+              承载力评价
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn nav-btn" value="3">
+              适宜性评价
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn nav-btn" value="4">
+              综合分析
+            </button>
+          </li>
+        </ul>
+      </header>
 
-      <hr>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary">等高线</button>
+        <button type="button" class="btn btn-primary">影像</button>
+        <button type="button" class="btn btn-primary">风场</button>
+      </div>
 
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="mb-1">
-          <button class="btn nav-btn border-0" data-bs-toggle="button" value="1">
-            本底评价
-          </button>
-        </li>
-        <li class="mb-1">
-          <button class="btn nav-btn border-0" data-bs-toggle="button" value="2">
-            承载力评价
-          </button>
-        </li>
-        <li class="mb-1">
-          <button class="btn nav-btn border-0" data-bs-toggle="button" value="3">
-            适宜性评价
-          </button>
-        </li>
-        <li class="mb-1">
-          <button class="btn nav-btn border-0" data-bs-toggle="button" value="4">
-            综合分析
-          </button>
-        </li>
-      </ul>
+      <div id="map" class="position-relative mt-3 rounded"></div>
 
-      <hr>
-    </aside>
-
-    <div id="map" class="col-md-4 position-relative"></div>
-
-    <div class="col-md-4">
-      <article class="row g-4" id="article">
-        <h2>双评价的目标</h2>
-        <p>
-          分析区域环境资源禀赋条件，研判国土空间开发利用问题和风险，识别生态系统服务功能极重要和生态极敏感空间，明确农业生产、城镇建设的最大合理规模和适宜空间。
-        </p>
-      </article>
-      <div id="graph" class="row g-4"></div>
+      <div
+        id="graph"
+        class="m-2 border border-primary shadow-sm rounded"
+      ></div>
     </div>
-  </div>
-  <script type="module" src="/main.js"></script>
-</body>
-
+    <script type="module" src="/main.js"></script>
+  </body>
 </html>

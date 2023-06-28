@@ -11,16 +11,30 @@ import { GaodeMap } from "@antv/l7-maps";
 import * as GeoTIFF from "geotiff";
 
 // const mapEl = document.getElementById('map')
-const pxOutEL = document.getElementById("pixel-output");
 const graphEl = document.getElementById("graph");
+
+// Nav Button
 const navBtnEl = document.querySelectorAll(".nav-btn");
-const articleEl = document.getElementById("article");
+
+navBtnEl.forEach((btnEl) => {
+  btnEl.addEventListener("click", (e) => handleNavBtnClick(e));
+});
+
+function handleNavBtnClick(e) {
+  navBtnEl.forEach((btnEl) => {
+    btnEl.classList.remove("btn-primary");
+  });
+  e.target.classList.toggle("btn-primary");
+  graph.changeData(STORE[e.target.value]);
+  graph.fitView();
+}
 
 // L7 Map
 const scene = new Scene({
   id: "map",
   map: new GaodeMap({
     // style: 'dark',
+    pitch: 53.6305,
     center: [110.32, 31.05],
     zoom: 8,
   }),
@@ -74,18 +88,18 @@ const graph = new G6.TreeGraph({
     default: ["click-select", "drag-canvas", "zoom-canvas"],
   },
   defaultNode: {
-    size: 20,
+    size: 15,
     anchorPoints: [
       [0, 0.5],
       [1, 0.5],
     ],
   },
   defaultEdge: {
-    type: "cubic-vertical",
+    type: "cubic-horizontal",
   },
   layout: {
     type: "compactBox",
-    direction: "TB",
+    direction: "LR",
     getId: function getId(d) {
       return d.id;
     },
@@ -96,30 +110,20 @@ const graph = new G6.TreeGraph({
       return 16;
     },
     getVGap: function getVGap() {
-      return 40;
+      return 10;
     },
     getHGap: function getHGap() {
-      return 20;
+      return 100;
     },
   },
 });
 
 graph.node(function (node) {
-  let position = "right";
-  let rotate = 0;
-  if (!node.children) {
-    position = "bottom";
-    rotate = Math.PI / 2;
-  }
   return {
     label: node.id,
     labelCfg: {
-      position,
-      offset: 5,
-      style: {
-        rotate,
-        textAlign: "start",
-      },
+      offset: 10,
+      position: node.children && node.children.length > 0 ? "left" : "right",
     },
   };
 });
@@ -130,12 +134,31 @@ graph.on("nodeselectchange", (e) => {
     const source = e.selectedItems.nodes[0].getModel().url;
     const style = e.selectedItems.nodes[0].getModel().style;
     addLayer(source, style);
+
+    switch (currentId) {
+      case "本底评价":
+        graph.changeData(STORE[1]);
+        graph.fitView();
+        break;
+      case "承载力评价":
+        graph.changeData(STORE[2]);
+        graph.fitView();
+        break;
+      case "适宜性评价":
+        graph.changeData(STORE[3]);
+        graph.fitView();
+        break;
+      case "综合分析":
+        graph.changeData(STORE[4]);
+        graph.fitView();
+        break;
+    }
   } else {
     scene.removeAllLayer();
   }
 });
 
-graph.data(STORE[1]);
+graph.data(STORE[0]);
 graph.render();
 graph.fitView();
 
@@ -145,14 +168,3 @@ if (typeof window !== "undefined")
     if (!graphEl || !graphEl.scrollWidth || !graphEl.scrollHeight) return;
     graph.changeSize(graphEl.scrollWidth, graphEl.scrollHeight);
   };
-
-// Nav Button
-function handleNavBtnClick(value) {
-  graph.data(STORE[value]);
-  graph.render();
-  graph.fitView();
-}
-
-navBtnEl.forEach((btnEl) => {
-  btnEl.addEventListener("click", (e) => handleNavBtnClick(e.target.value));
-});
