@@ -27,6 +27,9 @@ const graphEl = document.getElementById("graph");
 const navBtnEl = document.querySelectorAll(".nav-btn");
 const contourEL = document.getElementById("contour");
 const imageryEl = document.getElementById("imagery");
+const atEl = document.getElementById("articleTitle");
+const acEl = document.getElementById("articleContent");
+const aiEl = document.getElementById("articleImg");
 
 navBtnEl.forEach((btnEl) => {
   btnEl.addEventListener("click", (e) => handleNavBtnClick(e));
@@ -121,7 +124,7 @@ async function addLayer(id, source, style) {
 }
 
 // G6 Tree Graph
-const width = graphEl.scrollWidth;
+const width = graphEl.scrollWidth - 20;
 const height = graphEl.scrollHeight || 500;
 const graph = new G6.TreeGraph({
   container: graphEl,
@@ -132,7 +135,7 @@ const graph = new G6.TreeGraph({
     default: ["click-select", "drag-canvas", "zoom-canvas"],
   },
   defaultNode: {
-    size: 15,
+    size: 10,
     anchorPoints: [
       [0, 0.5],
       [1, 0.5],
@@ -148,10 +151,10 @@ const graph = new G6.TreeGraph({
       return d.id;
     },
     getHeight: function getHeight() {
-      return 16;
+      return 14;
     },
     getWidth: function getWidth() {
-      return 16;
+      return 14;
     },
     getVGap: function getVGap() {
       return 10;
@@ -177,6 +180,13 @@ graph.on("nodeselectchange", (e) => {
     const currentId = e.selectedItems.nodes[0].getModel().id;
     const source = e.selectedItems.nodes[0].getModel().url;
     const style = e.selectedItems.nodes[0].getModel().style;
+    const content = e.selectedItems.nodes[0].getModel().content;
+    const img = e.selectedItems.nodes[0].getModel().img;
+
+    atEl.innerText = currentId;
+    acEl.innerText = content;
+    aiEl.src = img;
+
     addLayer(currentId, source, style);
 
     switch (currentId) {
