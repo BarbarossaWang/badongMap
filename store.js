@@ -35,7 +35,7 @@ const STORE = [
               domain: [0, 1],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d"],
+                colors: ["#ee3f4d", "#3170a7"],
               },
             },
           },
@@ -51,7 +51,7 @@ const STORE = [
               domain: [2215, 10581],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787"],
               },
             },
           },
@@ -67,7 +67,7 @@ const STORE = [
               domain: [4, 14421],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582", "#5a191b", "#a7535a"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787", "#e2d849", "#cd6227"],
               },
             },
           },
@@ -83,7 +83,7 @@ const STORE = [
               domain: [1, 9],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582", "#5a191b", "#a7535a"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787", "#e2d849", "#cd6227"],
               },
             },
           },
@@ -99,7 +99,7 @@ const STORE = [
               domain: [0, 7],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582", "#5a191b", "#a7535a"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787", "#e2d849", "#cd6227"],
               },
             },
           },
@@ -118,7 +118,7 @@ const STORE = [
               domain: [0, 2],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787"],
               },
             },
           },
@@ -132,7 +132,7 @@ const STORE = [
               domain: [1, 5],
               rampColors: {
                 type: "quantize",
-                colors: ["#b2182b", "#d6604d", "#f4a582", "#5a191b", "#a7535a"],
+                colors: ["#ee3f4d", "#3170a7", "#45b787", "#e2d849", "#cd6227"],
               },
             },
           },
@@ -186,7 +186,7 @@ const STORE = [
           domain: [0, 2],
           rampColors: {
             type: "quantize",
-            colors: ["#b2182b", "#d6604d", "#f4a582"],
+            colors: ["#ee3f4d", "#3170a7", "#45b787"],
           },
         },
       },
@@ -200,7 +200,7 @@ const STORE = [
           domain: [1, 5],
           rampColors: {
             type: "quantize",
-            colors: ["#b2182b", "#d6604d", "#f4a582", "#5a191b", "#a7535a"],
+            colors: ["#ee3f4d", "#3170a7", "#45b787", "#e2d849", "#cd6227"],
           },
         },
       },

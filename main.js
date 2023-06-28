@@ -135,7 +135,7 @@ const graph = new G6.TreeGraph({
     default: ["click-select", "drag-canvas", "zoom-canvas"],
   },
   defaultNode: {
-    size: 10,
+    size: 20,
     anchorPoints: [
       [0, 0.5],
       [1, 0.5],
@@ -151,10 +151,10 @@ const graph = new G6.TreeGraph({
       return d.id;
     },
     getHeight: function getHeight() {
-      return 14;
+      return 16;
     },
     getWidth: function getWidth() {
-      return 14;
+      return 16;
     },
     getVGap: function getVGap() {
       return 10;
@@ -183,11 +183,11 @@ graph.on("nodeselectchange", (e) => {
     const content = e.selectedItems.nodes[0].getModel().content;
     const img = e.selectedItems.nodes[0].getModel().img;
 
-    atEl.innerText = currentId;
-    acEl.innerText = content;
-    aiEl.src = img;
+    atEl.innerText = currentId ? currentId : "";
+    acEl.innerText = content ? content : "";
+    aiEl.src = img ? img : "";
 
-    addLayer(currentId, source, style);
+    source ? addLayer(currentId, source, style) : "";
 
     switch (currentId) {
       case "本底评价":
