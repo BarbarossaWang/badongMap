@@ -16,15 +16,17 @@ import {
   Zoom,
   MouseLocation,
   LayerSwitch,
+  LineLayer,
 } from "@antv/l7";
 import { GaodeMap } from "@antv/l7-maps";
 import * as GeoTIFF from "geotiff";
 
 // const mapEl = document.getElementById('map')
 const graphEl = document.getElementById("graph");
-
 // Nav Button
 const navBtnEl = document.querySelectorAll(".nav-btn");
+const contourEL = document.getElementById("contour");
+const imageryEl = document.getElementById("imagery");
 
 navBtnEl.forEach((btnEl) => {
   btnEl.addEventListener("click", (e) => handleNavBtnClick(e));
@@ -45,7 +47,7 @@ const scene = new Scene({
   id: "map",
   map: new GaodeMap({
     style: "normal",
-    pitch: 35,
+    pitch: 45,
     center: [110.32, 31.05],
     zoom: 8,
   }),
@@ -114,7 +116,7 @@ async function addLayer(id, source, style) {
 
   scene.addLayer(layer);
   layerSwitch.setOptions({
-    layers: [layer],
+    layers: scene.getLayers(),
   });
 }
 
@@ -210,3 +212,87 @@ if (typeof window !== "undefined")
     if (!graphEl || !graphEl.scrollWidth || !graphEl.scrollHeight) return;
     graph.changeSize(graphEl.scrollWidth, graphEl.scrollHeight);
   };
+
+// Button Events
+contourEL.addEventListener("click", () => {
+  fetch("https://cnaquaman.com/alist/d/Badong/contour.json")
+    .then((res) => res.json())
+    .then((data) => {
+      const layer = new LineLayer({
+        name: "等高线",
+      })
+        .source(data)
+        .size("ELEV", (h) => {
+          return [h % 50 === 0 ? 1.0 : 0.5, (h - 1400) * 20];
+        })
+        .shape("line")
+        .scale("ELEV", {
+          type: "quantize",
+        })
+        .style({
+          heightfixed: true,
+        })
+        .color("ELEV", [
+          "#094D4A",
+          "#146968",
+          "#1D7F7E",
+          "#289899",
+          "#34B6B7",
+          "#4AC5AF",
+          "#5FD3A6",
+          "#7BE39E",
+          "#A1EDB8",
+          "#CEF8D6",
+        ]);
+      scene.addLayer(layer);
+      layerSwitch.setOptions({
+        layers: scene.getLayers(),
+      });
+    });
+});
+
+imageryEl.addEventListener("click", () => {
+  // 影像底图服务
+  const baseLayer = new RasterLayer({
+    name: "高德影像底图",
+    zIndex: 1,
+  });
+  baseLayer.source(
+    "https://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+    {
+      parser: {
+        type: "rasterTile",
+        tileSize: 256,
+        // minZoom: 6,
+        // maxZoom: 15,
+        zoomOffset: 0,
+        // extent: [-180, -85.051129, 179, 85.051129],
+      },
+    }
+  );
+
+  // 影像注记服务
+  const annotionLayer = new RasterLayer({
+    name: "高德影像注记",
+    zIndex: 2,
+  });
+  annotionLayer.source(
+    "https://webst0{1-3}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}",
+    {
+      parser: {
+        type: "rasterTile",
+        tileSize: 256,
+        // minZoom: 6,
+        // maxZoom: 15,
+        zoomOffset: 0,
+        // extent: [-180, -85.051129, 179, 85.051129],
+      },
+    }
+  );
+
+  scene.addLayer(baseLayer);
+  scene.addLayer(annotionLayer);
+  layerSwitch.setOptions({
+    layers: scene.getLayers(),
+  });
+});

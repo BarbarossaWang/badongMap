@@ -25,7 +25,7 @@
 
         <ul class="nav nav-pills">
           <li class="nav-item">
-            <button type="button" class="btn btn-primary nav-btn" value="1">
+            <button type="button" class="btn nav-btn" value="1">
               本底评价
             </button>
           </li>
@@ -48,17 +48,32 @@
       </header>
 
       <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary">等高线</button>
-        <button type="button" class="btn btn-primary">影像</button>
+        <button type="button" class="btn btn-primary" id="contour">
+          等高线
+        </button>
+        <button type="button" class="btn btn-primary" id="imagery">影像</button>
         <button type="button" class="btn btn-primary">风场</button>
       </div>
 
       <div id="map" class="position-relative mt-3 rounded"></div>
 
-      <div
-        id="graph"
-        class="m-2 border border-primary shadow-sm rounded"
-      ></div>
+      <div class="row h-50 mt-3">
+        <div class="col">
+          <article class="container" id="article">
+            <h3>双评价</h3>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
+              exercitationem modi voluptatibus voluptas officia, corporis illo
+              culpa beatae quia ab laborum quod doloremque debitis magni tempora
+              nulla odio nesciunt neque!
+            </p>
+          </article>
+        </div>
+        <div
+          id="graph"
+          class="border border-primary shadow-sm rounded col-8 mb-2"
+        ></div>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>
