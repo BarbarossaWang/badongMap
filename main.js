@@ -6,7 +6,17 @@ import * as bootstrap from "bootstrap";
 import G6 from "@antv/g6";
 import STORE from "./store";
 
-import { RasterLayer, Scene } from "@antv/l7";
+import {
+  ExportImage,
+  Fullscreen,
+  MapTheme,
+  RasterLayer,
+  Scale,
+  Scene,
+  Zoom,
+  MouseLocation,
+  LayerSwitch,
+} from "@antv/l7";
 import { GaodeMap } from "@antv/l7-maps";
 import * as GeoTIFF from "geotiff";
 
@@ -30,15 +40,42 @@ function handleNavBtnClick(e) {
 }
 
 // L7 Map
+// Init map scene
 const scene = new Scene({
   id: "map",
   map: new GaodeMap({
-    // style: 'dark',
-    pitch: 53.6305,
+    style: "normal",
+    pitch: 35,
     center: [110.32, 31.05],
     zoom: 8,
   }),
 });
+
+// L7 map controls
+const mapTheme = new MapTheme();
+const mapZoom = new Zoom({
+  position: "lefttop",
+});
+const mapScale = new Scale();
+const mapFullScreen = new Fullscreen();
+const mapExportImage = new ExportImage({
+  onExport: (base64) => {
+    alert("保存成功");
+  },
+});
+const mapMouseLocation = new MouseLocation({
+  position: "bottomright",
+});
+const layerSwitch = new LayerSwitch();
+
+// Add map controls
+scene.addControl(mapTheme);
+scene.addControl(mapZoom);
+scene.addControl(mapScale);
+scene.addControl(mapFullScreen);
+scene.addControl(mapExportImage);
+scene.addControl(mapMouseLocation);
+scene.addControl(layerSwitch);
 
 async function getTiffData(url) {
   const response = await fetch(url);
@@ -55,10 +92,12 @@ async function getTiffData(url) {
   };
 }
 
-async function addLayer(source, style) {
+async function addLayer(id, source, style) {
   const tiffdata = await getTiffData(source);
 
-  const layer = new RasterLayer();
+  const layer = new RasterLayer({
+    name: id,
+  });
   layer
     .source(tiffdata.data, {
       parser: {
@@ -74,6 +113,9 @@ async function addLayer(source, style) {
     .style(style);
 
   scene.addLayer(layer);
+  layerSwitch.setOptions({
+    layers: [layer],
+  });
 }
 
 // G6 Tree Graph
@@ -133,7 +175,7 @@ graph.on("nodeselectchange", (e) => {
     const currentId = e.selectedItems.nodes[0].getModel().id;
     const source = e.selectedItems.nodes[0].getModel().url;
     const style = e.selectedItems.nodes[0].getModel().style;
-    addLayer(source, style);
+    addLayer(currentId, source, style);
 
     switch (currentId) {
       case "本底评价":
